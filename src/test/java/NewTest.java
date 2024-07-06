@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.ConfigManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,13 +19,14 @@ import static io.restassured.RestAssured.given;
 @Story("Запуск тестов на https://reqres.in/")
 @DisplayName("Тесты API https://reqres.in/")
 public class NewTest {
-    String URL = "https://reqres.in/";
-    String name = "morpheus";
-    String job = "zion resident";
+    String URL = ConfigManager.TEST_CONFIG.baseUrl();
+    String name = ConfigManager.REQRES_CONFIG.name();
+    String job = ConfigManager.REQRES_CONFIG.job();
+    String jobCREATE = ConfigManager.REQRES_CONFIG.jobCREATE();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String updatedAt = LocalDateTime.now().format(formatter);
-    Integer id = 4;
-    String token = "QpwL5tke4Pnpja7X4";
+    Integer id = ConfigManager.REQRES_CONFIG.id();
+    String token = ConfigManager.REQRES_CONFIG.token();
 
 
     @Test
@@ -66,8 +68,6 @@ public class NewTest {
     @DisplayName("Тест PATCH метод")
     public void succesPATCHUserApi() {
         Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK200());
-        String name = "morpheus";
-        String job = "zion resident";
 
         MethodPUTReq req = new MethodPUTReq("morpheus", "zion resident");
         MethodPUTPesp resp = given().filter(new AllureRestAssured())
@@ -76,8 +76,8 @@ public class NewTest {
                 .patch("api/users/2")
                 .then().log().all()
                 .extract().as(MethodPUTPesp.class);
-        Assertions.assertNotNull(resp.getName());
 
+        Assertions.assertNotNull(resp.getName());
         Assertions.assertEquals(name, resp.getName());
         Assertions.assertEquals(job, resp.getJob());
         Assertions.assertEquals(updatedAt, resp.getUpdatedAt().substring(0, 10));
@@ -94,7 +94,7 @@ public class NewTest {
         response.prettyPrint();
         String report = response.getStatusLine() + "\n" + response.getHeaders();
         Allure.addAttachment("response", report);
-        Assertions.assertTrue(response.getStatusCode() == 404);
+        Assertions.assertEquals(404, response.getStatusCode());
 
     }
 
@@ -109,7 +109,7 @@ public class NewTest {
         response.prettyPrint();
         String report = response.getStatusLine() + "\n" + response.getHeaders();
         Allure.addAttachment("response", report);
-        Assertions.assertTrue(response.getStatusCode() == 204);
+        Assertions.assertEquals(204, response.getStatusCode());
 
     }
 
@@ -153,8 +153,6 @@ public class NewTest {
     @DisplayName("Тест POST CREATE метод")
     public void succesPOSTCreateApi() {
         Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK201());
-        String name = "morpheus";
-        String job = "leader";
 
         MethodPUTReq req = new MethodPUTReq("morpheus", "leader");
 
@@ -167,7 +165,7 @@ public class NewTest {
         Assertions.assertNotNull(resp.getName());
 
         Assertions.assertEquals(name, resp.getName());
-        Assertions.assertEquals(job, resp.getJob());
+        Assertions.assertEquals(jobCREATE, resp.getJob());
         Assertions.assertEquals(updatedAt, resp.getCreatedAt().substring(0, 10));
     }
 
