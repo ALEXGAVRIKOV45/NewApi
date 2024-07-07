@@ -1,9 +1,12 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MethodGETListResourceResp {
     private int id;
     private String name;
     private Integer year;
     private String color;
-    private String pantone_value;
+    @JsonProperty("pantone_value")
+    private String pantoneValue;
 
     public MethodGETListResourceResp() {
     }
@@ -24,7 +27,7 @@ public class MethodGETListResourceResp {
         return color;
     }
 
-    public String getPantone_value() {
-        return pantone_value;
+    public String getPantoneValue() {
+        return pantoneValue;
     }
 }
