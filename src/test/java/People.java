@@ -1,8 +1,12 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class People {
     public Integer id;
     public String email;
-    public String first_name;
-    public String last_name;
+    @JsonProperty("first_name")
+    public String firstName;
+    @JsonProperty("last_name")
+    public String lastName;
     public String avatar;
 
 
@@ -14,12 +18,12 @@ public class People {
         return email;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getAvatar() {
@@ -34,12 +38,12 @@ public class People {
         this.email = email;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setAvatar(String avatar) {

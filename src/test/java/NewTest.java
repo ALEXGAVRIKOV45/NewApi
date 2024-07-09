@@ -40,8 +40,8 @@ public class NewTest {
                 .then().log().all()
                 .extract().body().jsonPath()
                 .getList("data", People.class);
-        System.out.println(people.get(0).first_name);
-        Assertions.assertEquals("Michael", people.get(0).first_name);
+        System.out.println(people.get(0).firstName);
+        Assertions.assertEquals("Michael", people.get(0).firstName);
     }
 
     @Test
